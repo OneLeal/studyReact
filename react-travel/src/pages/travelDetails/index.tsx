@@ -1,5 +1,5 @@
 import React from "react";
 
-export const travelDetails: React.FC = () => {
+export const TravelDetails: React.FC = () => {
   return <div>旅游详情页面</div>;
 };

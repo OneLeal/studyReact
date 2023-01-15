@@ -21,6 +21,11 @@
     margin: auto;
 }
 
+.button-menu {
+    margin-left: 15px;
+    display: inline;
+}
+
 .button-group {
     float: right;
     margin-top: 5px;

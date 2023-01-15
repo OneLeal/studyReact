@@ -43,11 +43,13 @@ export const Header: React.FC = () => {
         <div className={styles.inner}>
           <Typography.Text>让旅游更幸福</Typography.Text>
 
-          <Dropdown menu={{ items }}>
-            <Button style={{ marginLeft: 15 }} icon={<GlobalOutlined />}>
-              语 言
-            </Button>
-          </Dropdown>
+          <Dropdown.Button
+            className={styles["button-menu"]}
+            menu={{ items }}
+            icon={<GlobalOutlined />}
+          >
+            语 言
+          </Dropdown.Button>
 
           <Button.Group className={styles["button-group"]}>
             <Button onClick={() => navigate("/signIn")}>注 册</Button>

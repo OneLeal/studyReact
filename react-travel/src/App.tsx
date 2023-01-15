@@ -13,7 +13,8 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/signIn" element={<SignIn />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/details" element={<TravelDetails />} />
+          <Route path="/details/:travelId" element={<TravelDetails />} />
+          <Route path="*" element={<h1>404 Not Found !</h1>} />
         </Routes>
       </BrowserRouter>
     </div>

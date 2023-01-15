@@ -4,6 +4,7 @@ import styles from "./index.module.css";
 import type { MenuProps } from "antd";
 import { GlobalOutlined } from "@ant-design/icons";
 import { Layout, Typography, Input, Button, Dropdown, Menu } from "antd";
+import { useNavigate } from "react-router-dom";
 
 // 语言选择项
 const items: MenuProps["items"] = [
@@ -33,6 +34,8 @@ const menuList = [
 ];
 
 export const Header: React.FC = () => {
+  const navigate = useNavigate();
+
   return (
     <div className={styles["app-header"]}>
       {/* 顶部功能导航 */}
@@ -47,21 +50,21 @@ export const Header: React.FC = () => {
           </Dropdown>
 
           <Button.Group className={styles["button-group"]}>
-            <Button>注 册</Button>
-            <Button>登 录</Button>
+            <Button onClick={() => navigate("/signIn")}>注 册</Button>
+            <Button onClick={() => navigate("/register")}>登 录</Button>
           </Button.Group>
         </div>
       </div>
 
       {/* 主导航 */}
       <Layout.Header className={styles["main-header"]}>
-        {/* 页面 icon */}
-        <img className={styles["App-logo"]} src={logo} alt="logo" />
+        <span style={{ cursor: "pointer" }} onClick={() => navigate("/")}>
+          <img className={styles["App-logo"]} src={logo} alt="logo" />
 
-        {/* 标题 */}
-        <Typography.Title className={styles.title} level={3}>
-          React 旅游网
-        </Typography.Title>
+          <Typography.Title className={styles.title} level={3}>
+            React 旅游网
+          </Typography.Title>
+        </span>
 
         {/* 搜索栏 */}
         <Input.Search

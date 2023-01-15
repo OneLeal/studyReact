@@ -1,5 +1,6 @@
 import React from "react";
 import { Image, Typography } from "antd";
+import { Link } from "react-router-dom";
 
 // props 类型声明
 interface PropsType {
@@ -12,11 +13,11 @@ interface PropsType {
 
 export const ProductImage: React.FC<PropsType> = (props) => {
   return (
-    <div>
+    <Link to={`/details/${props.id}`}>
       {props.size === "large" ? (
-        <Image src={props.src} height={285} width={490} />
+        <Image preview={false} src={props.src} height={285} width={490} />
       ) : (
-        <Image src={props.src} height={120} width={240} />
+        <Image preview={false} src={props.src} height={120} width={240} />
       )}
 
       <p>
@@ -28,6 +29,6 @@ export const ProductImage: React.FC<PropsType> = (props) => {
           {`￥ ${props.price} 起`}
         </Typography.Text>
       </p>
-    </div>
+    </Link>
   );
 };

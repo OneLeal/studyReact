@@ -21,8 +21,8 @@ export const Header: React.FC = () => {
   const navigate = useNavigate();
 
   // 获取 store 中的数据 / 方法
-  const language = useSelector((state) => state.language);
-  const languageList = useSelector((state) => state.languageList);
+  const language = useSelector((state) => state.language.language);
+  const languageList = useSelector((state) => state.language.languageList);
   const dispatch = useDispatch();
 
   // 设置语言菜单列表 / 点击事件

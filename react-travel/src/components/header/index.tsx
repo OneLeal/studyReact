@@ -1,59 +1,79 @@
 import React from "react";
 import logo from "../../assets/logo.svg";
 import styles from "./index.module.css";
-import type { MenuProps } from "antd";
+import { menuList } from "./opts";
 import { GlobalOutlined } from "@ant-design/icons";
 import { Layout, Typography, Input, Button, Dropdown, Menu } from "antd";
+import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-
-// 语言选择项
-const items: MenuProps["items"] = [
-  { key: "1", label: "中 文" },
-  { key: "2", label: "英 文" },
-  { key: "3", label: "日 文" },
-];
-
-// 主菜单选项
-const menuList = [
-  { key: "1", label: "旅游首页" },
-  { key: "2", label: "周末游" },
-  { key: "3", label: "跟团游" },
-  { key: "4", label: "自由行" },
-  { key: "5", label: "私家团" },
-  { key: "6", label: "邮轮" },
-  { key: "7", label: "酒店+景点" },
-  { key: "8", label: "当地玩乐" },
-  { key: "9", label: "主题游" },
-  { key: "10", label: "定制游" },
-  { key: "11", label: "游学" },
-  { key: "12", label: "签证" },
-  { key: "13", label: "企业游" },
-  { key: "14", label: "高端游" },
-  { key: "15", label: "爱玩户外" },
-  { key: "16", label: "保险" },
-];
+import { useSelector } from "../../redux/hooks";
+import { useDispatch } from "react-redux";
+import {
+  changeLanguageActionCreator,
+  addLanguageActionCreator,
+} from "../../redux/language/languageActions";
 
 export const Header: React.FC = () => {
+  // 获取国际化配置函数
+  const { t } = useTranslation();
+
+  // 获取 router 中的数据 / 方法F
   const navigate = useNavigate();
+
+  // 获取 store 中的数据 / 方法
+  const language = useSelector((state) => state.language);
+  const languageList = useSelector((state) => state.languageList);
+  const dispatch = useDispatch();
+
+  // 设置语言菜单列表 / 点击事件
+  const menuProps = {
+    items: languageList.map((item) => ({ label: item.name, key: item.code })),
+    onClick: (e: any) => {
+      const key = e.key;
+      if (key !== language) {
+        console.log("切换语言 / 新增语言: ", e.key);
+        key === "add"
+          ? dispatch(addLanguageActionCreator("新语言", "new_key"))
+          : dispatch(changeLanguageActionCreator(key));
+      }
+    },
+  };
+
+  // 获取语言代码所对应的名称
+  const languageName = () => {
+    const target = languageList.find((item) => item.code === language);
+    return target ? target.name || "" : "";
+  };
+
+  // 设置主导航菜单
+  const mainMenuList = menuList.map(({ label, key }) => ({
+    key,
+    label: t(`header.${label}`),
+  }));
 
   return (
     <div className={styles["app-header"]}>
       {/* 顶部功能导航 */}
       <div className={styles["top-header"]}>
         <div className={styles.inner}>
-          <Typography.Text>让旅游更幸福</Typography.Text>
+          <Typography.Text>{t("header.slogan")}</Typography.Text>
 
           <Dropdown.Button
             className={styles["button-menu"]}
-            menu={{ items }}
+            menu={menuProps}
             icon={<GlobalOutlined />}
           >
-            语 言
+            {languageName()}
           </Dropdown.Button>
 
           <Button.Group className={styles["button-group"]}>
-            <Button onClick={() => navigate("/signIn")}>注 册</Button>
-            <Button onClick={() => navigate("/register")}>登 录</Button>
+            <Button onClick={() => navigate("/signIn")}>
+              {t("header.signin")}
+            </Button>
+
+            <Button onClick={() => navigate("/register")}>
+              {t("header.register")}
+            </Button>
           </Button.Group>
         </div>
       </div>
@@ -64,14 +84,14 @@ export const Header: React.FC = () => {
           <img className={styles["App-logo"]} src={logo} alt="logo" />
 
           <Typography.Title className={styles.title} level={3}>
-            React 旅游网
+            {t("header.title")}
           </Typography.Title>
         </span>
 
         {/* 搜索栏 */}
         <Input.Search
           className={styles["search-input"]}
-          placeholder={"请输入目的地 / 景点 / 关键字"}
+          placeholder={t("header.placeholder") || ""}
         />
       </Layout.Header>
 
@@ -79,7 +99,7 @@ export const Header: React.FC = () => {
       <Menu
         className={styles["main-menu"]}
         mode={"horizontal"}
-        items={menuList}
+        items={mainMenuList}
       />
     </div>
   );

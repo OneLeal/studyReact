@@ -1,8 +1,6 @@
 import React from "react";
-import axios from "axios";
 import styles from "./index.module.css";
 import stylesCommon from "../../styles/index.module.css";
-import { productListApi } from "../../api";
 import { useTranslation } from "react-i18next";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
@@ -13,16 +11,12 @@ import { SideMenu } from "../../components/sideMenu";
 import { SlideShow } from "../../components/slideShow";
 import { HotProducts } from "../../components/HotProducts";
 import { Row, Col, Typography, Spin } from "antd";
+import { apiActionCreator } from "../../redux/recommendProducts/recommendProductsActions";
 // import {
 //   productList1,
 //   productList2,
 //   productList3,
 // } from "../../mock/hotProducts";
-import {
-  fetchRecommendProductsActionCreator,
-  fetchRecommendProductsSuccessActionCreator,
-  fetchRecommendProductsFailedActionCreator,
-} from "../../redux/recommendProducts/recommendProductsActions";
 
 // 静态资源
 import sideImage1 from "../../assets/images/sider_2019_12-09.png";
@@ -39,20 +33,8 @@ export const Home: React.FC = () => {
   );
 
   useEffect(() => {
-    const http = async () => {
-      try {
-        dispatch(fetchRecommendProductsActionCreator());
-        const { data } = await axios.get(productListApi);
-        console.log("产品推荐列表: ", data);
-        dispatch(fetchRecommendProductsSuccessActionCreator(data));
-      } catch (error) {
-        if (error instanceof Error) {
-          dispatch(fetchRecommendProductsFailedActionCreator(error));
-        }
-      }
-    };
-    http();
-  }, []);
+    dispatch((apiActionCreator()); // FIXME: dispatch 参数类型错误
+  }, [dispatch]);
 
   if (loading) {
     return <Spin className={stylesCommon["common-spin"]} size="large" />;

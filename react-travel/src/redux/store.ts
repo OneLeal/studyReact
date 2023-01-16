@@ -1,4 +1,5 @@
-import { createStore, combineReducers } from "redux"; // FIXME: 使用 toolkit
+import thunk from "redux-thunk";
+import { createStore, combineReducers, applyMiddleware } from "redux";
 import { initLanguageReducer } from "./language/languageReducer";
 import { initRecommendProductsReducer } from "./recommendProducts/recommendProductsReducer";
 
@@ -9,6 +10,6 @@ const collectReducer = {
 };
 
 const rootReducer = combineReducers(collectReducer); // 糅合所有的 reducer
-const store = createStore(rootReducer); // 创建数据仓库
+const store = createStore(rootReducer, applyMiddleware(thunk)); // 创建数据仓库
 export type RootState = ReturnType<typeof store.getState>; // 导出 store 类型
 export default store;

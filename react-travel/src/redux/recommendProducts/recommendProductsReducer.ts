@@ -1,5 +1,5 @@
 import {
-  FetchRecommendProductsActionTypes,
+  RecommendProductsActionTypes,
   FETCH_RECOMMEND_PRODUCTS,
   FETCH_RECOMMEND_PRODUCTS_SUCCESS,
   FETCH_RECOMMEND_PRODUCTS_FAILED,
@@ -20,7 +20,7 @@ const defaultState: RecommendProductsState = {
 
 export const initRecommendProductsReducer = (
   state = defaultState,
-  action: FetchRecommendProductsActionTypes
+  action: RecommendProductsActionTypes
 ) => {
   switch (action.type) {
     // 开始请求

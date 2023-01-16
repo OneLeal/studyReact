@@ -1,6 +1,8 @@
 import React from "react";
 import styles from "./index.module.css";
 import stylesCommon from "../../styles/index.module.css";
+import axios from "axios";
+import { productListApi } from "../../api";
 import { useTranslation } from "react-i18next";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
@@ -11,7 +13,12 @@ import { SideMenu } from "../../components/sideMenu";
 import { SlideShow } from "../../components/slideShow";
 import { HotProducts } from "../../components/HotProducts";
 import { Row, Col, Typography, Spin } from "antd";
-import { apiActionCreator } from "../../redux/recommendProducts/recommendProductsActions";
+import {
+  apiActionCreator,
+  fetchRecommendProductsActionCreator,
+  fetchRecommendProductsFailedActionCreator,
+  fetchRecommendProductsSuccessActionCreator,
+} from "../../redux/recommendProducts/recommendProductsActions";
 // import {
 //   productList1,
 //   productList2,
@@ -33,7 +40,22 @@ export const Home: React.FC = () => {
   );
 
   useEffect(() => {
-    dispatch((apiActionCreator()); // FIXME: dispatch 参数类型错误
+    // dispatch((apiActionCreator()); // FIXME: dispatch 参数类型错误
+
+    // FIXME: 暂时先在组件中进行请求，待上述问题解决后再迁移至中间件调用
+    const http = async () => {
+      try {
+        dispatch(fetchRecommendProductsActionCreator());
+        const { data } = await axios.get(productListApi);
+        dispatch(fetchRecommendProductsSuccessActionCreator(data));
+        console.log("产品推荐列表: ", data);
+      } catch (error) {
+        if (error instanceof Error) {
+          dispatch(fetchRecommendProductsFailedActionCreator(error));
+        }
+      }
+    };
+    http();
   }, [dispatch]);
 
   if (loading) {

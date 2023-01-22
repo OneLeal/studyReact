@@ -23,7 +23,7 @@ interface RowType {
 
 const columns: ColumnsType<RowType> = [
   {
-    title: "title",
+    title: "标 题",
     dataIndex: "title",
     key: "title",
     align: "left",
@@ -31,7 +31,7 @@ const columns: ColumnsType<RowType> = [
   },
 
   {
-    title: "description",
+    title: "描 述",
     dataIndex: "description",
     key: "description",
     align: "center",
@@ -73,12 +73,12 @@ export const ProductInfo: React.FC<PropsType> = (props) => {
       ),
     },
     {
-      key: 2,
+      key: 3,
       title: "领取优惠",
       description: props.coupons ? props.discount : "无优惠券可领",
     },
     {
-      key: 2,
+      key: 4,
       title: "线路评价",
       description: (
         <>
@@ -112,7 +112,7 @@ export const ProductInfo: React.FC<PropsType> = (props) => {
 
       <Carousel autoplay slidesToShow={len}>
         {props.pictures.map((src) => (
-          <Image height={150} src={src} />
+          <Image height={150} key={src} src={src} />
         ))}
       </Carousel>
 

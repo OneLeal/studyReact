@@ -3,6 +3,7 @@ import axios from "axios";
 import styles from "./index.module.css";
 import stylesCommon from "../../styles/index.module.css";
 import { productInfo } from "../../api/";
+import { ProductInfo } from "../../components/productInfo";
 import { useParams } from "react-router-dom";
 import { Header } from "../../components/header";
 import { Footer } from "../../components/footer";
@@ -20,8 +21,8 @@ type ParamsKeys = {
 
 export const TravelDetails: React.FC = () => {
   const params = useParams<ParamsKeys>();
-  const [loading, setLoading] = useState(true);
-  const [product, setProduct] = useState(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [product, setProduct] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -61,10 +62,23 @@ export const TravelDetails: React.FC = () => {
         {/* 产品详情 / 日期选择 */}
         <div className={styles["product-intro-container"]}>
           <Row>
-            <Col span={13}></Col>
+            <Col span={13}>
+              <ProductInfo
+                title={product.title}
+                description={product.description}
+                points={product.points}
+                coupons={product.coupons}
+                discount={product.discount}
+                price={product.price}
+                rating={product.rating}
+                pictures={product.touristRoutePictures.map(
+                  (item: any) => item.url
+                )}
+              />
+            </Col>
 
             <Col span={11}>
-              <RangePicker format={dateFormat} />
+              <RangePicker style={{ marginTop: 20 }} format={dateFormat} />
             </Col>
           </Row>
         </div>

@@ -2,12 +2,23 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import styles from "./index.module.css";
 import stylesCommon from "../../styles/index.module.css";
+import { commentMockData } from "../../mock/comments";
 import { productInfo } from "../../api/";
 import { ProductInfo } from "../../components/productInfo";
 import { useParams } from "react-router-dom";
+import { ProductComments } from "../../components/productComments";
 import { Header } from "../../components/header";
 import { Footer } from "../../components/footer";
-import { Row, Col, Spin, DatePicker } from "antd";
+import {
+  Row,
+  Col,
+  Spin,
+  DatePicker,
+  Typography,
+  Divider,
+  Anchor,
+  Menu,
+} from "antd";
 
 const { RangePicker } = DatePicker;
 const dateFormat = "YYYY 年 MM 月 DD 日";
@@ -18,6 +29,14 @@ type ParamsKeys = {
   travelId: string;
   title?: string;
 };
+
+// 锚点配置列表
+const LINK_LIST = [
+  { key: 1, title: "产品特色", href: "feature" },
+  { key: 2, title: "费 用", href: "fees" },
+  { key: 3, title: "预订须知", href: "notes" },
+  { key: 4, title: "商品评价", href: "comments" },
+];
 
 export const TravelDetails: React.FC = () => {
   const params = useParams<ParamsKeys>();
@@ -44,7 +63,7 @@ export const TravelDetails: React.FC = () => {
       }
     };
     http();
-  }, []);
+  }, [params.travelId]);
 
   if (loading) {
     return <Spin className={stylesCommon["common-spin"]} size="large" />;
@@ -83,15 +102,63 @@ export const TravelDetails: React.FC = () => {
           </Row>
         </div>
 
-        <div className={styles["product-detail-anchor"]}></div>
+        {/* 锚点菜单 */}
+        <Anchor className={styles["product-detail-anchor"]}>
+          <Menu mode="horizontal">
+            {LINK_LIST.map((item) => (
+              <Menu.Item key={item.key}>
+                <Anchor.Link title={item.title} href={`#${item.href}`} />
+              </Menu.Item>
+            ))}
+          </Menu>
+        </Anchor>
 
-        <div id="feature" className={styles["product-detail-container"]}></div>
+        {/* 产品特色 */}
+        <div id="feature" className={styles["product-detail-container"]}>
+          <Divider orientation="center">
+            <Typography.Title level={3}>产品特色</Typography.Title>
+          </Divider>
 
-        <div id="fees" className={styles["product-detail-container"]}></div>
+          <div
+            style={{ margin: 50 }}
+            dangerouslySetInnerHTML={{ __html: product.features }}
+          />
+        </div>
 
-        <div id="notes" className={styles["product-detail-container"]}></div>
+        {/* 费用 */}
+        <div id="fees" className={styles["product-detail-container"]}>
+          <Divider orientation="center">
+            <Typography.Title level={3}>费 用</Typography.Title>
+          </Divider>
 
-        <div id="comments" className={styles["product-detail-container"]}></div>
+          <div
+            style={{ margin: 50 }}
+            dangerouslySetInnerHTML={{ __html: product.fees }}
+          />
+        </div>
+
+        {/* 预订须知 */}
+        <div id="notes" className={styles["product-detail-container"]}>
+          <Divider orientation="center">
+            <Typography.Title level={3}>预订须知</Typography.Title>
+          </Divider>
+
+          <div
+            style={{ margin: 50 }}
+            dangerouslySetInnerHTML={{ __html: product.notes }}
+          />
+        </div>
+
+        {/* 商品评价 */}
+        <div id="comments" className={styles["product-detail-container"]}>
+          <Divider orientation="center">
+            <Typography.Title level={3}>商品评价</Typography.Title>
+          </Divider>
+
+          <div style={{ margin: 40 }}>
+            <ProductComments list={commentMockData} />
+          </div>
+        </div>
       </div>
 
       <Footer />

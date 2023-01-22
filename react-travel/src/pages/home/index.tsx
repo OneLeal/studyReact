@@ -40,7 +40,7 @@ export const Home: React.FC = () => {
   );
 
   useEffect(() => {
-    // dispatch((apiActionCreator()); // FIXME: dispatch 参数类型错误
+    // dispatch(apiActionCreator()); // FIXME: dispatch 参数类型错误
 
     // FIXME: 暂时先在组件中进行请求，待上述问题解决后再迁移至中间件调用
     const http = async () => {

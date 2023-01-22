@@ -6,7 +6,11 @@ import { productInfo } from "../../api/";
 import { useParams } from "react-router-dom";
 import { Header } from "../../components/header";
 import { Footer } from "../../components/footer";
-import { Row, Col, Spin } from "antd";
+import { Row, Col, Spin, DatePicker } from "antd";
+
+const { RangePicker } = DatePicker;
+const dateFormat = "YYYY 年 MM 月 DD 日";
+const ERROR_MESSAGE = "获取产品详情失败！";
 
 // 设置路由参数类型
 type ParamsKeys = {
@@ -32,7 +36,7 @@ export const TravelDetails: React.FC = () => {
         setProduct(data);
       } catch (error) {
         if (error instanceof Error) {
-          setError(error.message || "获取产品详情失败！");
+          setError(error.message || ERROR_MESSAGE);
         }
       } finally {
         setLoading(false);
@@ -54,7 +58,16 @@ export const TravelDetails: React.FC = () => {
       <Header />
 
       <div className={styles["page-content"]}>
-        <div className={styles["product-intro-container"]}></div>
+        {/* 产品详情 / 日期选择 */}
+        <div className={styles["product-intro-container"]}>
+          <Row>
+            <Col span={13}></Col>
+
+            <Col span={11}>
+              <RangePicker format={dateFormat} />
+            </Col>
+          </Row>
+        </div>
 
         <div className={styles["product-detail-anchor"]}></div>
 

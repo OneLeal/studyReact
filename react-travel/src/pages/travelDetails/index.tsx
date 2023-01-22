@@ -2,10 +2,13 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import styles from "./index.module.css";
 import stylesCommon from "../../styles/index.module.css";
+import { useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { useSelector } from "../../redux/hooks";
+import { productInfoSlice } from "../../redux/productInfo/slice";
 import { commentMockData } from "../../mock/comments";
 import { productInfo } from "../../api/";
 import { ProductInfo } from "../../components/productInfo";
-import { useParams } from "react-router-dom";
 import { ProductComments } from "../../components/productComments";
 import { Header } from "../../components/header";
 import { Footer } from "../../components/footer";
@@ -39,31 +42,42 @@ const LINK_LIST = [
 ];
 
 export const TravelDetails: React.FC = () => {
-  const params = useParams<ParamsKeys>();
-  const [loading, setLoading] = useState<boolean>(true);
-  const [product, setProduct] = useState<any>(null);
-  const [error, setError] = useState<string | null>(null);
+  const dispatch = useDispatch();
+  const params = useParams<ParamsKeys>(); // 获取路由参数
+
+  // 将数据存放在当前组件的 state 中
+  // const [loading, setLoading] = useState<boolean>(true);
+  // const [product, setProduct] = useState<any>(null);
+  // const [error, setError] = useState<string | null>(null);
+
+  // 将数据存放至 redux
+  const loading = useSelector((state) => state.productInfo.loading);
+  const error = useSelector((state) => state.productInfo.error);
+  const product = useSelector((state) => state.productInfo.data);
 
   useEffect(() => {
     const http = async () => {
       const id = params.travelId;
       const url = productInfo + id;
-      setLoading(true);
+      // setLoading(true);
+      dispatch(productInfoSlice.actions.fetchDataStart());
 
       try {
         const { data } = await axios.get(url);
         console.log("产品详情: ", data);
-        setProduct(data);
+        // setProduct(data);
+        dispatch(productInfoSlice.actions.fetchDataSuccess(data));
       } catch (error) {
         if (error instanceof Error) {
-          setError(error.message || ERROR_MESSAGE);
+          // setError(error.message || ERROR_MESSAGE);
+          dispatch(productInfoSlice.actions.fetchDataFailed(error));
         }
       } finally {
-        setLoading(false);
+        // setLoading(false);
       }
     };
     http();
-  }, [params.travelId]);
+  }, [params.travelId, dispatch]);
 
   if (loading) {
     return <Spin className={stylesCommon["common-spin"]} size="large" />;

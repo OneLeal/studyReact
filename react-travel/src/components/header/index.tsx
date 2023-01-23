@@ -17,7 +17,7 @@ export const Header: React.FC = () => {
   // 获取国际化配置函数
   const { t } = useTranslation();
 
-  // 获取 router 中的数据 / 方法F
+  // 获取 router 中的数据 / 方法
   const navigate = useNavigate();
 
   // 获取 store 中的数据 / 方法
@@ -92,6 +92,7 @@ export const Header: React.FC = () => {
         <Input.Search
           className={styles["search-input"]}
           placeholder={t("header.placeholder") || ""}
+          onSearch={(keyword) => keyword && navigate(`/search/${keyword}`)}
         />
       </Layout.Header>
 

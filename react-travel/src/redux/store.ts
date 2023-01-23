@@ -2,14 +2,16 @@
 // import { createStore, applyMiddleware } from "redux";
 import { initLanguageReducer } from "./language/languageReducer";
 import { initRecommendProductsReducer } from "./recommendProducts/recommendProductsReducer";
-import { productInfoSlice } from "./productInfo/slice";
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import { productInfoSlice } from "./productInfo/slice";
+import { searchInfoSlice } from "./search/slice";
 
 // 收集所有的 reducer
 const collectReducer = {
   language: initLanguageReducer,
   recommendProducts: initRecommendProductsReducer,
   productInfo: productInfoSlice.reducer,
+  searchInfo: searchInfoSlice.reducer,
 };
 
 const rootReducer = combineReducers(collectReducer); // 糅合所有的 reducer

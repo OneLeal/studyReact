@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React, { useEffect } from "react";
 import styles from "./index.module.css";
 import stylesCommon from "../../styles/index.module.css";
 import { useParams } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { useSelector } from "../../redux/hooks";
-import { productInfoSlice } from "../../redux/productInfo/slice";
+import { useSelector, useAppDispatch } from "../../redux/hooks";
 import { commentMockData } from "../../mock/comments";
-import { productInfo } from "../../api/";
 import { ProductInfo } from "../../components/productInfo";
 import { ProductComments } from "../../components/productComments";
 import { Header } from "../../components/header";
 import { Footer } from "../../components/footer";
+import {
+  fetchProductInfo,
+  productInfoSlice,
+} from "../../redux/productInfo/slice";
 import {
   Row,
   Col,
@@ -25,7 +25,6 @@ import {
 
 const { RangePicker } = DatePicker;
 const dateFormat = "YYYY 年 MM 月 DD 日";
-const ERROR_MESSAGE = "获取产品详情失败！";
 
 // 设置路由参数类型
 type ParamsKeys = {
@@ -42,41 +41,18 @@ const LINK_LIST = [
 ];
 
 export const TravelDetails: React.FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const params = useParams<ParamsKeys>(); // 获取路由参数
 
-  // 将数据存放在当前组件的 state 中
-  // const [loading, setLoading] = useState<boolean>(true);
-  // const [product, setProduct] = useState<any>(null);
-  // const [error, setError] = useState<string | null>(null);
-
-  // 将数据存放至 redux
+  // 将数据存放至 store
   const loading = useSelector((state) => state.productInfo.loading);
   const error = useSelector((state) => state.productInfo.error);
   const product = useSelector((state) => state.productInfo.data);
 
   useEffect(() => {
-    const http = async () => {
-      const id = params.travelId;
-      const url = productInfo + id;
-      // setLoading(true);
-      dispatch(productInfoSlice.actions.fetchDataStart());
-
-      try {
-        const { data } = await axios.get(url);
-        console.log("产品详情: ", data);
-        // setProduct(data);
-        dispatch(productInfoSlice.actions.fetchDataSuccess(data));
-      } catch (error) {
-        if (error instanceof Error) {
-          // setError(error.message || ERROR_MESSAGE);
-          dispatch(productInfoSlice.actions.fetchDataFailed(error));
-        }
-      } finally {
-        // setLoading(false);
-      }
-    };
-    http();
+    const id = params.travelId;
+    id && dispatch(fetchProductInfo(id)); // 异步请求
+    dispatch(productInfoSlice.actions.test()); // 同步操作
   }, [params.travelId, dispatch]);
 
   if (loading) {

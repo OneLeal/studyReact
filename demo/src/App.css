@@ -1,0 +1,22 @@
+.layout-wrap {
+  width: 500px;
+  margin: 100px;
+  padding: 20px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.layout-top {
+  margin-bottom: 20px;
+}
+
+.empty-list {
+  text-align: center;
+}
+
+.title {
+  text-align: center;
+  font-size: 20px;
+  font-weight: bolder;
+  margin-bottom: 20px;
+}

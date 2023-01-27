@@ -1,0 +1,66 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+button {
+    width: 80px;
+    height: 35px;
+    line-height: 35px;
+    border-radius: 4px;
+    border: none;
+    outline: none;
+    font-size: 14px;
+    background-color: #f7f7f7;
+    color: #333;
+    cursor: pointer;
+}
+
+button.primary {
+    background-color: #409EFF;
+    color: #fff;
+}
+
+button.danger {
+    background-color: #F56C6C;
+    color: #fff;
+}
+
+button.info {
+    background-color: #909399;
+    color: #fff;
+}
+
+button.disabled {
+    cursor: no-drop;
+}
+
+input {
+    display: inline-block;
+    width: 400px;
+    height: 33px;
+    line-height: 33px;
+    border-radius: 4px;
+    border: none;
+    outline: none;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    text-indent: 1rem;
+}
+
+.disabled {
+    opacity: .4;
+    color: #999;
+}
+
+li {
+    list-style: none;
+}
+
+.ml-10 {
+    margin-left: 10px;
+}
+
+.mr-10 {
+    margin-right: 10px;
+}

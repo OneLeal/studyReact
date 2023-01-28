@@ -20,7 +20,7 @@ export const RegisterForm: React.FC = () => {
 
     try {
       await axios.post(register, body);
-      navigate("/signIn/");
+      navigate("/signIn");
     } catch (error) {
       setErrorMsg("注册失败！");
       setVisible(true);

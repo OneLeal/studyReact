@@ -72,7 +72,6 @@ export const Header: React.FC = () => {
   const onLogout = () => {
     dispatch(signInSlice.actions.logOut());
     navigate("/");
-    window.location.reload();
   };
 
   return (

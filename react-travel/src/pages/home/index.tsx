@@ -1,5 +1,4 @@
 import React from "react";
-import styles from "./index.module.css";
 import stylesCommon from "../../styles/index.module.css";
 import axios from "axios";
 import { productListApi } from "../../api";
@@ -7,8 +6,7 @@ import { useTranslation } from "react-i18next";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "../../redux/hooks";
-import { Header } from "../../components/header";
-import { Footer } from "../../components/footer";
+import { MainLayout } from "../../layouts/main";
 import { SideMenu } from "../../components/sideMenu";
 import { SlideShow } from "../../components/slideShow";
 import { HotProducts } from "../../components/HotProducts";
@@ -67,55 +65,48 @@ export const Home: React.FC = () => {
   }
 
   return (
-    <div>
-      <Header />
+    <MainLayout>
+      {/* 侧边栏 | 幻灯片 */}
+      <Row>
+        <Col span={6}>
+          <SideMenu />
+        </Col>
 
-      {/* 页面内容 */}
-      <div className={styles["page-content"]}>
-        {/* 侧边栏 | 幻灯片 */}
-        <Row>
-          <Col span={6}>
-            <SideMenu />
-          </Col>
+        <Col span={18}>
+          <SlideShow />
+        </Col>
+      </Row>
 
-          <Col span={18}>
-            <SlideShow />
-          </Col>
-        </Row>
+      {/* 热门推荐 */}
+      <HotProducts
+        sideImage={sideImage1}
+        list={productList[0].touristRoutes}
+        title={
+          <Typography.Title level={3} type="warning">
+            {t("home_page.hot_recommended")}
+          </Typography.Title>
+        }
+      />
 
-        {/* 热门推荐 */}
-        <HotProducts
-          sideImage={sideImage1}
-          list={productList[0].touristRoutes}
-          title={
-            <Typography.Title level={3} type="warning">
-              {t("home_page.hot_recommended")}
-            </Typography.Title>
-          }
-        />
+      <HotProducts
+        sideImage={sideImage2}
+        list={productList[1].touristRoutes}
+        title={
+          <Typography.Title level={3} type="danger">
+            {t("home_page.new_arrival")}
+          </Typography.Title>
+        }
+      />
 
-        <HotProducts
-          sideImage={sideImage2}
-          list={productList[1].touristRoutes}
-          title={
-            <Typography.Title level={3} type="danger">
-              {t("home_page.new_arrival")}
-            </Typography.Title>
-          }
-        />
-
-        <HotProducts
-          sideImage={sideImage3}
-          list={productList[2].touristRoutes}
-          title={
-            <Typography.Title level={3} type="success">
-              {t("home_page.domestic_travel")}
-            </Typography.Title>
-          }
-        />
-      </div>
-
-      <Footer />
-    </div>
+      <HotProducts
+        sideImage={sideImage3}
+        list={productList[2].touristRoutes}
+        title={
+          <Typography.Title level={3} type="success">
+            {t("home_page.domestic_travel")}
+          </Typography.Title>
+        }
+      />
+    </MainLayout>
   );
 };

@@ -21,7 +21,9 @@
         "high_end":"High-end",
         "outdoor":"Outdoor",
         "insurance":"Insurance",
-        "placeholder":"please entry destination / scenic spot / keyword"
+        "shoppingCart": "Shopping Cart",
+        "signOut": "Sign Out",
+        "welcome": "Welcome back "
     },
     "footer": {
         "detail" : "All rights reserved @ ReactTravel.com"

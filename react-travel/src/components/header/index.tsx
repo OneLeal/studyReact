@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import logo from "../../assets/logo.svg";
 import styles from "./index.module.css";
+import jwt_decode, { JwtPayload as defaultJwtPayload } from "jwt-decode";
 import { menuList } from "./opts";
 import { GlobalOutlined } from "@ant-design/icons";
 import { Layout, Typography, Input, Button, Dropdown, Menu } from "antd";
@@ -8,10 +9,15 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "../../redux/hooks";
 import { useDispatch } from "react-redux";
+import { signInSlice } from "../../redux/signIn/slice";
 import {
   changeLanguageActionCreator,
   addLanguageActionCreator,
 } from "../../redux/language/languageActions";
+
+interface jwtInfoType extends defaultJwtPayload {
+  username: string;
+}
 
 export const Header: React.FC = () => {
   // 获取国际化配置函数
@@ -23,7 +29,18 @@ export const Header: React.FC = () => {
   // 获取 store 中的数据 / 方法
   const language = useSelector((state) => state.language.language);
   const languageList = useSelector((state) => state.language.languageList);
+  const token = useSelector((state) => state.signIn.token);
   const dispatch = useDispatch();
+
+  // 设置组件的 state
+  const [username, setUsername] = useState("");
+
+  useEffect(() => {
+    if (token) {
+      const jwt = jwt_decode<jwtInfoType>(token);
+      setUsername(jwt.username);
+    }
+  }, [token]);
 
   // 设置语言菜单列表 / 点击事件
   const menuProps = {
@@ -51,6 +68,13 @@ export const Header: React.FC = () => {
     label: t(`header.${label}`),
   }));
 
+  // 注销
+  const onLogout = () => {
+    dispatch(signInSlice.actions.logOut());
+    navigate("/");
+    window.location.reload();
+  };
+
   return (
     <div className={styles["app-header"]}>
       {/* 顶部功能导航 */}
@@ -66,15 +90,27 @@ export const Header: React.FC = () => {
             {languageName()}
           </Dropdown.Button>
 
-          <Button.Group className={styles["button-group"]}>
-            <Button onClick={() => navigate("/signIn")}>
-              {t("header.signin")}
-            </Button>
+          {token ? (
+            <Button.Group className={styles["button-group"]}>
+              <span>
+                {t("header.welcome")}
+                <Typography.Text strong>{username}</Typography.Text>
+              </span>
 
-            <Button onClick={() => navigate("/register")}>
-              {t("header.register")}
-            </Button>
-          </Button.Group>
+              <Button>{t("header.shoppingCart")}</Button>
+              <Button onClick={onLogout}>{t("header.signOut")}</Button>
+            </Button.Group>
+          ) : (
+            <Button.Group className={styles["button-group"]}>
+              <Button onClick={() => navigate("/signIn")}>
+                {t("header.signin")}
+              </Button>
+
+              <Button onClick={() => navigate("/register")}>
+                {t("header.register")}
+              </Button>
+            </Button.Group>
+          )}
         </div>
       </div>
 

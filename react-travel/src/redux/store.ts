@@ -5,6 +5,7 @@ import { initRecommendProductsReducer } from "./recommendProducts/recommendProdu
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { productInfoSlice } from "./productInfo/slice";
 import { searchInfoSlice } from "./search/slice";
+import { signInSlice } from "./signIn/slice";
 
 // 收集所有的 reducer
 const collectReducer = {
@@ -12,6 +13,7 @@ const collectReducer = {
   recommendProducts: initRecommendProductsReducer,
   productInfo: productInfoSlice.reducer,
   searchInfo: searchInfoSlice.reducer,
+  signIn: signInSlice.reducer,
 };
 
 const rootReducer = combineReducers(collectReducer); // 糅合所有的 reducer

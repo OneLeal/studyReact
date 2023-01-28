@@ -1,17 +1,29 @@
 import styles from "./signInForm.module.css";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Modal, Checkbox, Form, Input } from "antd";
+import { signInRequest } from "../../redux/signIn/slice";
+import { useAppDispatch, useSelector } from "../../redux/hooks";
+import { useNavigate } from "react-router-dom";
 
 export const SignInForm: React.FC = () => {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const loading = useSelector((state) => state.signIn.loading);
+  const error = useSelector((state) => state.signIn.error);
+  const token = useSelector((state) => state.signIn.token);
   const [visible, setVisible] = useState(false);
-  const [errorMsg, setErrorMsg] = useState("");
+
+  useEffect(() => {
+    token && navigate("/");
+  }, [token]);
 
   const closeModal = () => {
     setVisible(false);
   };
 
   const onFinish = (values: any) => {
-    console.log("Success:", values);
+    const params = { email: values.username, password: values.password };
+    dispatch(signInRequest(params));
   };
 
   const onFinishFailed = (errorInfo: any) => {
@@ -56,7 +68,7 @@ export const SignInForm: React.FC = () => {
         </Form.Item>
 
         <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-          <Button type="primary" htmlType="submit">
+          <Button type="primary" htmlType="submit" loading={loading}>
             Submit
           </Button>
         </Form.Item>
@@ -71,7 +83,7 @@ export const SignInForm: React.FC = () => {
         okText={"确 定"}
         maskClosable={false}
       >
-        <p>{errorMsg}</p>
+        <p>{error}</p>
       </Modal>
     </div>
   );

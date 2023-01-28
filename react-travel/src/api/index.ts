@@ -12,4 +12,4 @@ export const searchInfo = "http://123.56.149.216:8080/api/touristRoutes";
 export const register = "http://123.56.149.216:8080/auth/register";
 
 // 用户登录
-export const login = "";
+export const login = "http://123.56.149.216:8080/auth/login";

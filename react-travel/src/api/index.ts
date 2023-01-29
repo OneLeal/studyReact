@@ -24,3 +24,7 @@ export const delGoodsInShoppingCart =
 // 添加商品到购物车
 export const addGoodsInShoppingCart =
   "http://123.56.149.216:8080/api/shoppingCart/items";
+
+// 购物车结算
+export const shoppingCartPay =
+  "http://123.56.149.216:8080/api/shoppingCart/checkout";

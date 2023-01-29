@@ -39,6 +39,8 @@ interface PropsType {
   loading: boolean;
   originalPrice: number;
   price: number;
+  isPay?: boolean;
+  isClear?: boolean;
   onShoppingCartClear: () => void;
   onCheckout: () => void;
 }
@@ -46,6 +48,8 @@ interface PropsType {
 export const PaymentCard: React.FC<PropsType> = ({
   loading,
   originalPrice,
+  isClear,
+  isPay,
   price,
   onShoppingCartClear,
   onCheckout,
@@ -71,11 +75,21 @@ export const PaymentCard: React.FC<PropsType> = ({
     <Card
       style={{ width: 300, marginTop: 16 }}
       actions={[
-        <Button type="primary" danger onClick={onCheckout} loading={loading}>
+        <Button
+          type="primary"
+          danger
+          onClick={onCheckout}
+          loading={loading}
+          disabled={isPay}
+        >
           <CheckCircleOutlined />
           下单支付
         </Button>,
-        <Button onClick={onShoppingCartClear} loading={loading}>
+        <Button
+          onClick={onShoppingCartClear}
+          loading={loading}
+          disabled={isClear}
+        >
           <DeleteOutlined />
           清空
         </Button>,

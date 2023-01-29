@@ -3,6 +3,7 @@ import {
   shoppingCartList,
   delGoodsInShoppingCart,
   addGoodsInShoppingCart,
+  shoppingCartPay,
 } from "../../api";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
@@ -49,6 +50,16 @@ export const addShoppingCart = createAsyncThunk(
       headers,
     });
     return data.shoppingCartItems;
+  }
+);
+
+// 购物车结算
+export const payShoppingCartGoods = createAsyncThunk(
+  "shoppingCart/payShoppingCartGoods",
+  async (jwt: string) => {
+    const headers = { Authorization: `bearer ${jwt}` };
+    const { data } = await axios.post(shoppingCartPay, headers);
+    return data;
   }
 );
 
@@ -105,6 +116,22 @@ export const shoppingCartSlice = createSlice({
         const ErrorInfo = action.payload;
         if (ErrorInfo instanceof Error) {
           state.error = ErrorInfo.message || "添加商品到购物车失败！";
+        }
+      })
+      .addCase(payShoppingCartGoods.pending, (state, action) => {
+        state.loading = true;
+      })
+      .addCase(payShoppingCartGoods.fulfilled, (state, action) => {
+        state.loading = false;
+        state.error = null;
+        state.list = [];
+      })
+      .addCase(payShoppingCartGoods.rejected, (state, action) => {
+        state.loading = false;
+
+        const ErrorInfo = action.payload;
+        if (ErrorInfo instanceof Error) {
+          state.error = ErrorInfo.message || "删除商品失败！";
         }
       });
   },

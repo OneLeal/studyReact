@@ -1,21 +1,44 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "./index.module.css";
 import { MainLayout } from "../../layouts/main";
 import { ProductList } from "../../components/searchList";
 import { PaymentCard } from "../../components/paymentCard";
 import { Col, Row, Affix } from "antd";
+import { useNavigate } from "react-router-dom";
 import { useSelector, useAppDispatch } from "../../redux/hooks";
-import { delShoppingCart } from "../../redux/shoppingCart/slice";
+import { message } from "antd";
+import {
+  delShoppingCart,
+  payShoppingCartGoods,
+} from "../../redux/shoppingCart/slice";
 
 export const ShoppingCart: React.FC = () => {
+  const [messageApi, contextHolder] = message.useMessage();
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const loading = useSelector((state) => state.shoppingCart.loading);
   const token = useSelector((state) => state.signIn.token);
   const shoppingCartList = useSelector((state) => state.shoppingCart.list);
+  const shoppingCartError = useSelector((state) => state.shoppingCart.error);
+
+  // 页面初始化
+  useEffect(() => {
+    if (!token) {
+      navigate("/");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // 购物车相关接口报错
+  useEffect(() => {
+    typeof shoppingCartError === "string" &&
+      shoppingCartError &&
+      messageApi.error({ type: "error", content: shoppingCartError });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [shoppingCartError]);
 
   // 清空购物车
   const onShoppingCartClear = () => {
-    // FIXME: 未登录时点击应提示请登录
     const params = {
       jwt: token,
       list: shoppingCartList.map((item) => item.id),
@@ -24,10 +47,14 @@ export const ShoppingCart: React.FC = () => {
   };
 
   // 用户下单
-  const onCheckout = () => {}; // TODO: 待开发
+  const onCheckout = async () => {
+    await dispatch(payShoppingCartGoods(token));
+    // TODO: 跳转到下单支付页面
+  };
 
   return (
     <MainLayout>
+      {contextHolder}
       <Row>
         {/* 购物车清单 */}
         <Col span={16}>
@@ -44,6 +71,8 @@ export const ShoppingCart: React.FC = () => {
             <div className={styles["payment-card-container"]}>
               <PaymentCard
                 loading={loading}
+                isClear={(shoppingCartList || []).length === 0}
+                isPay={(shoppingCartList || []).length === 0}
                 price={(shoppingCartList || [])
                   .map(
                     (item) =>

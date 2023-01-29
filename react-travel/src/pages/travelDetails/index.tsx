@@ -23,6 +23,7 @@ import {
   Anchor,
   Menu,
   Button,
+  message,
 } from "antd";
 
 const { RangePicker } = DatePicker;
@@ -43,6 +44,7 @@ const LINK_LIST = [
 ];
 
 export const TravelDetails: React.FC = () => {
+  const [messageApi, contextHolder] = message.useMessage();
   const dispatch = useAppDispatch(); // 获取 dispatch
   const params = useParams<ParamsKeys>(); // 获取路由参数
 
@@ -50,6 +52,7 @@ export const TravelDetails: React.FC = () => {
   const loading = useSelector((state) => state.productInfo.loading);
   const shoppingLoading = useSelector((state) => state.shoppingCart.loading);
   const error = useSelector((state) => state.productInfo.error);
+  const shoppingCartError = useSelector((state) => state.shoppingCart.error);
   const product = useSelector((state) => state.productInfo.data);
   const token = useSelector((state) => state.signIn.token);
 
@@ -58,13 +61,27 @@ export const TravelDetails: React.FC = () => {
     const id = params.travelId;
     id && dispatch(fetchProductInfo(id)); // 异步请求
     dispatch(productInfoSlice.actions.test()); // 同步操作
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params.travelId]);
 
+  // 购物车相关接口报错
+  useEffect(() => {
+    typeof shoppingCartError === "string" &&
+      shoppingCartError &&
+      messageApi.error(shoppingCartError);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [shoppingCartError]);
+
   // 把商品加入购物车
-  const handleAdd = () => {
+  const handleAdd = async () => {
+    if (!token) {
+      messageApi.warning("请登录");
+      return;
+    }
+
     const params = { jwt: token, id: product.id };
-    dispatch(addShoppingCart(params));
+    await dispatch(addShoppingCart(params));
+    messageApi.success("加入购物车成功！");
   };
 
   if (loading) {
@@ -77,6 +94,7 @@ export const TravelDetails: React.FC = () => {
 
   return (
     <MainLayout>
+      {contextHolder}
       {/* 产品详情 / 日期选择 */}
       <div className={styles["product-intro-container"]}>
         <Row>

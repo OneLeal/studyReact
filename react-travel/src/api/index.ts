@@ -28,3 +28,7 @@ export const addGoodsInShoppingCart =
 // 购物车结算
 export const shoppingCartPay =
   "http://123.56.149.216:8080/api/shoppingCart/checkout";
+
+// 订单支付
+export const payOrderApi = (orderId) =>
+  `http://123.56.149.216:8080/api/orders/${orderId}/placeOrder`;

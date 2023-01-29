@@ -131,7 +131,7 @@ export const shoppingCartSlice = createSlice({
 
         const ErrorInfo = action.payload;
         if (ErrorInfo instanceof Error) {
-          state.error = ErrorInfo.message || "删除商品失败！";
+          state.error = ErrorInfo.message || "商品结算失败！";
         }
       });
   },

@@ -15,6 +15,7 @@ export const SignInForm: React.FC = () => {
 
   useEffect(() => {
     token && navigate("/");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token]);
 
   const closeModal = () => {

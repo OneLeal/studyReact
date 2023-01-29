@@ -61,7 +61,6 @@ export const apiActionCreator =
       dispatch(fetchRecommendProductsActionCreator());
       const { data } = await axios.get(productListApi);
       dispatch(fetchRecommendProductsSuccessActionCreator(data));
-      console.log("产品推荐列表: ", data);
     } catch (error) {
       if (error instanceof Error) {
         dispatch(fetchRecommendProductsFailedActionCreator(error));

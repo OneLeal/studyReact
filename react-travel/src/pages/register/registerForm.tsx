@@ -11,7 +11,6 @@ export const RegisterForm: React.FC = () => {
   const [errorMsg, setErrorMsg] = useState("");
 
   const onFinish = async (values: any) => {
-    console.log("Success:", values);
     const body = {
       email: values.username,
       password: values.password,
@@ -28,7 +27,6 @@ export const RegisterForm: React.FC = () => {
   };
 
   const onFinishFailed = (errorInfo: any) => {
-    console.log("Failed:", errorInfo);
     setErrorMsg("注册失败！");
     setVisible(true);
   };

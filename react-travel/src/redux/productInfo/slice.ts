@@ -22,7 +22,6 @@ export const fetchProductInfo = createAsyncThunk(
   async (id: string, thunkAPI) => {
     const url = productInfo + id;
     const { data } = await axios.get(url);
-    console.log("产品详情: ", data);
     return data;
   }
 );

@@ -60,7 +60,6 @@ export const TravelDetails: React.FC = () => {
   useEffect(() => {
     const id = params.travelId;
     id && dispatch(fetchProductInfo(id)); // 异步请求
-    dispatch(productInfoSlice.actions.test()); // 同步操作
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params.travelId]);
 

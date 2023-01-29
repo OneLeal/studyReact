@@ -31,11 +31,7 @@ export const productInfoSlice = createSlice({
   initialState, // 默认数据初始化
 
   // 处理同步方法
-  reducers: {
-    test: (state) => {
-      console.log("测试: ", state.data, state.error, state.loading);
-    },
-  },
+  reducers: {},
 
   // 处理异步方法
   extraReducers: {

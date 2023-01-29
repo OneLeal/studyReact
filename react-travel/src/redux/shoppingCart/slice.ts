@@ -58,7 +58,7 @@ export const payShoppingCartGoods = createAsyncThunk(
   "shoppingCart/payShoppingCartGoods",
   async (jwt: string) => {
     const headers = { Authorization: `bearer ${jwt}` };
-    const { data } = await axios.post(shoppingCartPay, headers);
+    const { data } = await axios.post(shoppingCartPay, null, { headers });
     return data;
   }
 );

@@ -28,6 +28,7 @@ const columns: ColumnsType<OrderItem> = [
 
 interface PropsType {
   loading: boolean;
+  isPay?: boolean;
   order: any;
   onCheckout: () => void;
 }
@@ -35,6 +36,7 @@ interface PropsType {
 export const CheckOutCard: React.FC<PropsType> = ({
   loading,
   order,
+  isPay,
   onCheckout,
 }) => {
   const navigate = useNavigate();
@@ -70,7 +72,13 @@ export const CheckOutCard: React.FC<PropsType> = ({
             回到首页
           </Button>
         ) : (
-          <Button type="primary" danger onClick={onCheckout} loading={loading}>
+          <Button
+            type="primary"
+            danger
+            onClick={onCheckout}
+            loading={loading}
+            disabled={isPay}
+          >
             <CheckCircleOutlined />
             支付
           </Button>

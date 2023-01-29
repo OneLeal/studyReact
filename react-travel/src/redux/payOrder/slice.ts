@@ -20,7 +20,7 @@ export const handlePayOrder = createAsyncThunk(
   async (params: { jwt: string; orderId: string }, thunkAPI) => {
     const url = payOrderApi(params.orderId);
     const headers = { Authorization: `bearer ${params.jwt}` };
-    const { data } = await axios.post(url, headers);
+    const { data } = await axios.post(url, null, { headers });
     return data;
   }
 );
@@ -37,6 +37,7 @@ export const payOrderSlice = createSlice({
       .addCase(handlePayOrder.fulfilled, (state, action) => {
         state.loading = false;
         state.error = null;
+        state.currentOrder = action.payload;
       })
       .addCase(handlePayOrder.rejected, (state, action) => {
         state.loading = false;

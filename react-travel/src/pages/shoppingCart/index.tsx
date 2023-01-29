@@ -21,14 +21,6 @@ export const ShoppingCart: React.FC = () => {
   const shoppingCartList = useSelector((state) => state.shoppingCart.list);
   const shoppingCartError = useSelector((state) => state.shoppingCart.error);
 
-  // 页面初始化
-  useEffect(() => {
-    if (!token) {
-      navigate("/");
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   // 购物车相关接口报错
   useEffect(() => {
     typeof shoppingCartError === "string" &&
@@ -49,7 +41,7 @@ export const ShoppingCart: React.FC = () => {
   // 用户下单
   const onCheckout = async () => {
     await dispatch(payShoppingCartGoods(token));
-    // TODO: 跳转到下单支付页面
+    navigate("/pay");
   };
 
   return (

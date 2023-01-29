@@ -7,6 +7,7 @@ import { Register } from "./pages/register";
 import { TravelDetails } from "./pages/travelDetails";
 import { SearchPage } from "./pages/search";
 import { ShoppingCart } from "./pages/shoppingCart";
+import { PayOrder } from "./pages/payOrder";
 import { Navigate } from "react-router-dom";
 import { useSelector, useAppDispatch } from "./redux/hooks";
 import { fetchShoppingCartList } from "./redux/shoppingCart/slice";
@@ -22,6 +23,7 @@ function App() {
 
   useEffect(() => {
     token && dispatch(fetchShoppingCartList(token));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token]);
 
   return (
@@ -38,6 +40,14 @@ function App() {
             element={
               <PrivateRouter>
                 <ShoppingCart />
+              </PrivateRouter>
+            }
+          />
+          <Route
+            path="/pay"
+            element={
+              <PrivateRouter>
+                <PayOrder />
               </PrivateRouter>
             }
           />

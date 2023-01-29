@@ -51,7 +51,7 @@ export const signInSlice = createSlice({
 
         const ErrorInfo = action.payload;
         if (ErrorInfo instanceof Error) {
-          state.error = ErrorInfo.message || "请求异常！";
+          state.error = ErrorInfo.message || "登录异常！";
         }
       });
   },

@@ -7,6 +7,7 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { productInfoSlice } from "./productInfo/slice";
 import { searchInfoSlice } from "./search/slice";
 import { signInSlice } from "./signIn/slice";
+import { shoppingCartSlice } from "./shoppingCart/slice";
 import storage from "redux-persist/lib/storage";
 
 // 数据持久化配置
@@ -23,6 +24,7 @@ const collectReducer = {
   productInfo: productInfoSlice.reducer,
   searchInfo: searchInfoSlice.reducer,
   signIn: signInSlice.reducer,
+  shoppingCart: shoppingCartSlice,
 };
 
 const rootReducer = combineReducers(collectReducer); // 糅合所有的 reducer

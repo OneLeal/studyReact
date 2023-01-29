@@ -13,3 +13,14 @@ export const register = "http://123.56.149.216:8080/auth/register";
 
 // 用户登录
 export const login = "http://123.56.149.216:8080/auth/login";
+
+// 获取购物车列表
+export const shoppingCartList = "http://123.56.149.216:8080/api/shoppingCart";
+
+// 删除购物车中的商品
+export const delGoodsInShoppingCart =
+  "http://123.56.149.216:8080/api/shoppingCart/items/";
+
+// 添加商品到购物车
+export const addGoodsInShoppingCart =
+  "http://123.56.149.216:8080/api/shoppingCart/items";

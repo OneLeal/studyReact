@@ -24,7 +24,7 @@ const collectReducer = {
   productInfo: productInfoSlice.reducer,
   searchInfo: searchInfoSlice.reducer,
   signIn: signInSlice.reducer,
-  shoppingCart: shoppingCartSlice,
+  shoppingCart: shoppingCartSlice.reducer,
 };
 
 const rootReducer = combineReducers(collectReducer); // 糅合所有的 reducer

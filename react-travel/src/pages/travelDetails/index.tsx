@@ -9,10 +9,7 @@ import { ProductComments } from "../../components/productComments";
 import { MainLayout } from "../../layouts/main";
 import { ShoppingCartOutlined } from "@ant-design/icons";
 import { addShoppingCart } from "../../redux/shoppingCart/slice";
-import {
-  fetchProductInfo,
-  productInfoSlice,
-} from "../../redux/productInfo/slice";
+import { fetchProductInfo } from "../../redux/productInfo/slice";
 import {
   Row,
   Col,

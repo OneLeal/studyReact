@@ -7,13 +7,12 @@ import { GlobalOutlined } from "@ant-design/icons";
 import { Layout, Typography, Input, Button, Dropdown, Menu } from "antd";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "../../redux/hooks";
-import { useDispatch } from "react-redux";
+import { useSelector, useAppDispatch } from "../../redux/hooks";
 import { signInSlice } from "../../redux/signIn/slice";
 import {
-  changeLanguageActionCreator,
-  addLanguageActionCreator,
-} from "../../redux/language/languageActions";
+  handleLanguageChange,
+  languageChangeSlice,
+} from "../../redux/languageChange/slice";
 
 interface jwtInfoType extends defaultJwtPayload {
   username: string;
@@ -27,12 +26,14 @@ export const Header: React.FC = () => {
   const navigate = useNavigate();
 
   // 获取 store 中的数据 / 方法
-  const language = useSelector((state) => state.language.language);
-  const languageList = useSelector((state) => state.language.languageList);
+  const language = useSelector((state) => state.languageChange.language);
+  const languageList = useSelector(
+    (state) => state.languageChange.languageList
+  );
   const token = useSelector((state) => state.signIn.token);
   const shoppingCartList = useSelector((state) => state.shoppingCart.list);
   const loading = useSelector((state) => state.shoppingCart.loading);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   // 设置组件的 state
   const [username, setUsername] = useState("");
@@ -50,10 +51,14 @@ export const Header: React.FC = () => {
     onClick: (e: any) => {
       const key = e.key;
       if (key !== language) {
-        console.log("切换语言 / 新增语言: ", e.key);
         key === "add"
-          ? dispatch(addLanguageActionCreator("新语言", "new_key"))
-          : dispatch(changeLanguageActionCreator(key));
+          ? dispatch(
+              languageChangeSlice.actions.add_language({
+                name: "新语言",
+                code: "new_key",
+              })
+            )
+          : dispatch(handleLanguageChange(key));
       }
     },
   };

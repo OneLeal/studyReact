@@ -1,7 +1,7 @@
 // import thunk from "redux-thunk";
 // import { createStore, applyMiddleware } from "redux";
+// import { initLanguageReducer } from "./language/languageReducer";
 import { persistStore, persistReducer } from "redux-persist";
-import { initLanguageReducer } from "./language/languageReducer";
 import { initRecommendProductsReducer } from "./recommendProducts/recommendProductsReducer";
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { productInfoSlice } from "./productInfo/slice";
@@ -9,6 +9,7 @@ import { searchInfoSlice } from "./search/slice";
 import { signInSlice } from "./signIn/slice";
 import { shoppingCartSlice } from "./shoppingCart/slice";
 import { payOrderSlice } from "./payOrder/slice";
+import { languageChangeSlice } from "./languageChange/slice";
 import storage from "redux-persist/lib/storage";
 
 // 数据持久化配置
@@ -20,8 +21,9 @@ const persistConfig = {
 
 // 收集所有的 reducer
 const collectReducer = {
-  language: initLanguageReducer,
   recommendProducts: initRecommendProductsReducer,
+  // language: initLanguageReducer,
+  languageChange: languageChangeSlice.reducer,
   productInfo: productInfoSlice.reducer,
   searchInfo: searchInfoSlice.reducer,
   signIn: signInSlice.reducer,

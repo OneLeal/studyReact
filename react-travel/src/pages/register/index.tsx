@@ -1,5 +1,11 @@
 import React from "react";
+import { RegisterForm } from "./registerForm";
+import { UserLayout } from "../../layouts/user";
 
 export const Register: React.FC = () => {
-  return <div>注册页面</div>;
+  return (
+    <UserLayout>
+      <RegisterForm />
+    </UserLayout>
+  );
 };

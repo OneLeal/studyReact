@@ -1,8 +1,7 @@
 import React, { useEffect } from "react";
 import styles from "./index.module.css";
 import stylesCommon from "../../styles/index.module.css";
-import { Header } from "../../components/header";
-import { Footer } from "../../components/footer";
+import { MainLayout } from "../../layouts/main";
 import { fetchSearchInfo } from "../../redux/search/slice";
 import { useParams, useLocation } from "react-router-dom";
 import { useSelector, useAppDispatch } from "../../redux/hooks";
@@ -39,26 +38,20 @@ export const SearchPage: React.FC = () => {
   }
 
   return (
-    <div>
-      <Header></Header>
-
-      <div className={styles["page-content"]}>
-        {/* 分类过滤器 */}
-        <div className={styles["product-list-container"]}>
-          <FilterArea />
-        </div>
-
-        {/* 产品列表 */}
-        <div className={styles["product-list-container"]}>
-          <ProductList
-            data={searchInfoList}
-            paging={page}
-            onPageChange={onPageChange}
-          />
-        </div>
+    <MainLayout>
+      {/* 分类过滤器 */}
+      <div className={styles["product-list-container"]}>
+        <FilterArea />
       </div>
 
-      <Footer></Footer>
-    </div>
+      {/* 产品列表 */}
+      <div className={styles["product-list-container"]}>
+        <ProductList
+          data={searchInfoList}
+          paging={page}
+          onPageChange={onPageChange}
+        />
+      </div>
+    </MainLayout>
   );
 };

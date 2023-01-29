@@ -22,7 +22,6 @@ export const fetchProductInfo = createAsyncThunk(
   async (id: string, thunkAPI) => {
     const url = productInfo + id;
     const { data } = await axios.get(url);
-    console.log("产品详情: ", data);
     return data;
   }
 );
@@ -32,11 +31,7 @@ export const productInfoSlice = createSlice({
   initialState, // 默认数据初始化
 
   // 处理同步方法
-  reducers: {
-    test: (state) => {
-      console.log("测试: ", state.data, state.error, state.loading);
-    },
-  },
+  reducers: {},
 
   // 处理异步方法
   extraReducers: {

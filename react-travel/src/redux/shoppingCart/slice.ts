@@ -19,7 +19,7 @@ const initialState: shoppingCartType = {
 };
 
 // 获取购物车列表
-const fetchShoppingCartList = createAsyncThunk(
+export const fetchShoppingCartList = createAsyncThunk(
   "shoppingCart/fetchShoppingCartList",
   async (jwt: string, thunkAPI) => {
     const headers = { Authorization: `bearer ${jwt}` };
@@ -29,18 +29,18 @@ const fetchShoppingCartList = createAsyncThunk(
 );
 
 // 删除购物车中的商品
-const delShoppingCart = createAsyncThunk(
+export const delShoppingCart = createAsyncThunk(
   "shoppingCart/delShoppingCart",
   async (params: { jwt: string; list: number[] }) => {
     const listStr = params.list.join(",");
-    const url = `${delGoodsInShoppingCart}${listStr}`;
+    const url = `${delGoodsInShoppingCart}(${listStr})`;
     const headers = { Authorization: `bearer ${params.jwt}` };
     return await axios.delete(url, { headers });
   }
 );
 
 // 添加商品到购物车
-const addShoppingCart = createAsyncThunk(
+export const addShoppingCart = createAsyncThunk(
   "shoppingCart/addShoppingCart",
   async (params: { jwt: string; id: string }, thunkAPI) => {
     const headers = { Authorization: `bearer ${params.jwt}` };

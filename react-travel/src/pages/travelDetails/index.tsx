@@ -7,6 +7,8 @@ import { commentMockData } from "../../mock/comments";
 import { ProductInfo } from "../../components/productInfo";
 import { ProductComments } from "../../components/productComments";
 import { MainLayout } from "../../layouts/main";
+import { ShoppingCartOutlined } from "@ant-design/icons";
+import { addShoppingCart } from "../../redux/shoppingCart/slice";
 import {
   fetchProductInfo,
   productInfoSlice,
@@ -20,6 +22,7 @@ import {
   Divider,
   Anchor,
   Menu,
+  Button,
 } from "antd";
 
 const { RangePicker } = DatePicker;
@@ -40,19 +43,29 @@ const LINK_LIST = [
 ];
 
 export const TravelDetails: React.FC = () => {
-  const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch(); // 获取 dispatch
   const params = useParams<ParamsKeys>(); // 获取路由参数
 
-  // 将数据存放至 store
+  // 从 store 中获取数据
   const loading = useSelector((state) => state.productInfo.loading);
+  const shoppingLoading = useSelector((state) => state.shoppingCart.loading);
   const error = useSelector((state) => state.productInfo.error);
   const product = useSelector((state) => state.productInfo.data);
+  const token = useSelector((state) => state.signIn.token);
 
+  // 监听路由参数，根据 id 查询商品详情信息
   useEffect(() => {
     const id = params.travelId;
     id && dispatch(fetchProductInfo(id)); // 异步请求
     dispatch(productInfoSlice.actions.test()); // 同步操作
-  }, [params.travelId, dispatch]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [params.travelId]);
+
+  // 把商品加入购物车
+  const handleAdd = () => {
+    const params = { jwt: token, id: product.id };
+    dispatch(addShoppingCart(params));
+  };
 
   if (loading) {
     return <Spin className={stylesCommon["common-spin"]} size="large" />;
@@ -83,7 +96,21 @@ export const TravelDetails: React.FC = () => {
           </Col>
 
           <Col span={11}>
-            <RangePicker style={{ marginTop: 20 }} format={dateFormat} />
+            <div className={styles["btn-add-shopping-cart"]}>
+              <Button
+                type="primary"
+                loading={shoppingLoading}
+                icon={<ShoppingCartOutlined />}
+                danger
+                onClick={() => {
+                  handleAdd();
+                }}
+              >
+                放入购物车
+              </Button>
+            </div>
+
+            <RangePicker style={{ marginTop: 20 }} format={dateFormat} open />
           </Col>
         </Row>
       </div>

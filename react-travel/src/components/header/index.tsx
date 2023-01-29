@@ -30,6 +30,8 @@ export const Header: React.FC = () => {
   const language = useSelector((state) => state.language.language);
   const languageList = useSelector((state) => state.language.languageList);
   const token = useSelector((state) => state.signIn.token);
+  const shoppingCartList = useSelector((state) => state.shoppingCart.list);
+  const loading = useSelector((state) => state.shoppingCart.loading);
   const dispatch = useDispatch();
 
   // 设置组件的 state
@@ -96,8 +98,12 @@ export const Header: React.FC = () => {
                 <Typography.Text strong>{username}</Typography.Text>
               </span>
 
-              <Button onClick={() => navigate("/shoppingCart")}>
+              <Button
+                loading={loading}
+                onClick={() => navigate("/shoppingCart")}
+              >
                 {t("header.shoppingCart")}
+                {`(${(shoppingCartList || []).length})`}
               </Button>
               <Button onClick={onLogout}>{t("header.signOut")}</Button>
             </Button.Group>
